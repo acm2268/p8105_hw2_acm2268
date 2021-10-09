@@ -21,9 +21,46 @@ library(dplyr)
 
 library(readxl)
 trash_data = read_excel("data/Trash-Wheel-Collection-Totals-7-2020-2.xlsx",
-                        sheet = "Mr. Trash Wheel",
-                        skip = 1) %>%
+      sheet = "Mr. Trash Wheel",
+      skip = 1) %>%
   janitor::clean_names() %>%
   select("dumpster":"homes_powered") %>%
   drop_na(dumpster) %>%
-   mutate(sports_balls = round(sports_balls, 0))
+  mutate(sports_balls = round(sports_balls, 0))
+
+tail(trash_data)
+```
+
+##Read and Clean Precipitation Data for 2018 and 2019
+
+```{r}
+precip_18 = read_excel("data/Trash-Wheel-Collection-Totals-7-2020-2.xlsx",
+     sheet = "2018 Precipitation",
+     skip = 1) %>%
+  select("Month","Total") %>%
+  drop_na(Month) %>%
+  mutate(year = 2018)
+
+tail(precip_18)
+
+precip_19 = read_excel("data/Trash-Wheel-Collection-Totals-7-2020-2.xlsx",
+     sheet = "2019 Precipitation",
+     skip = 1) %>%
+  select("Month","Total") %>%
+  drop_na(Month) %>%
+    mutate(year = 2019)
+
+tail(precip_19)
+
+```
+
+```{r}
+precip_tidy = 
+  bind_rows(precip_18, precip_19) %>%
+  mutate(Month = month.name[as.numeric(Month)]) %>%
+  janitor::clean_names()
+
+print(precip_tidy)
+
+##Combine Precipitation Data for 2018 and 2019
+
