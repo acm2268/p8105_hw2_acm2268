@@ -92,3 +92,17 @@ separate(date, sep = "/", into = c("month", "day", "year"), convert = TRUE ) %>%
   relocate(year)
 
 print(snp_data)
+```
+
+##Read and clean unemployment.csv
+
+```{r}
+library(lubridate)
+unempl_data = read_csv("./data/unemployment.csv", col_names = TRUE) %>%
+  pivot_longer("Jan" : "Dec", names_to = "month", values_to = "unempl_percent")%>%
+ mutate(
+   month = recode(month, Jan = "January", Feb = "February", Mar = "March", Apr = "April", Jun = "June", Jul = "July", Aug = "August", Sept = "September", Oct = "October", Nov = "November", Dec = "December"),
+   Year = as.character(Year))
+
+print(unempl_data)
+
