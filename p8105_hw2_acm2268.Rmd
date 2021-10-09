@@ -61,6 +61,21 @@ precip_tidy =
   janitor::clean_names()
 
 print(precip_tidy)
+```
 
-##Combine Precipitation Data for 2018 and 2019
+#Question 2: FiveThirtyEight
+
+## Clean data in pols-month.csv
+
+```{r}
+
+polls_data = read_csv("./data/pols-month.csv", col_names = TRUE) %>%
+  separate(mon, sep = "-", into = c("year", "month", "day") ) %>%
+  mutate(
+    month = month.name[as.numeric(month)],
+    president = recode(prez_dem, '0' = "gop", '1' = "dem")) %>%
+  select(-prez_gop, -prez_dem, -day)
+         
+print(polls_data)
+```
 
