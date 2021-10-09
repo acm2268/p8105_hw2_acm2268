@@ -79,3 +79,16 @@ polls_data = read_csv("./data/pols-month.csv", col_names = TRUE) %>%
 print(polls_data)
 ```
 
+##Clean data in snp.csv
+
+```{r}
+
+snp_data = read_csv("./data/snp.csv", col_names = TRUE) %>%
+separate(date, sep = "/", into = c("month", "day", "year"), convert = TRUE ) %>%
+  mutate(
+    month = month.name[as.numeric(month)]) %>%
+  mutate(
+    year, year = if_else (year <= 15, year + 2000, year + 1900)) %>%
+  relocate(year)
+
+print(snp_data)
