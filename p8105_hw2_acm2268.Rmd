@@ -136,3 +136,13 @@ names_data = read_csv("./data/Popular_Baby_Names.csv", col_names = TRUE) %>%
          
 print(names_data)
 ```
+
+##Table with the rank of the name Olivia over time
+
+```{r}
+
+olivia_table = filter(names_data, childs_first_name == "Olivia") %>%
+  group_by(year_of_birth)
+
+print(olivia_table, n = 24)
+
